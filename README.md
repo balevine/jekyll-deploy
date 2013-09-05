@@ -7,7 +7,7 @@ This is a simple shell script for building a Jekyll site and deploying it to Git
 
 ## To use it
 * Keep your Jekyll source files in a branch called `source`.
-* Have Jekyll send your resulting files to the `_source` folder. This is the default, so just don't mess with it.
+* Have Jekyll send your resulting files to the `_site` folder. This is the default, so just don't mess with it.
 * Commit changes to your source files. Currently, this script requires that your working directory is clean when it runs.
 * Run this script from the source directory.
 
@@ -27,3 +27,6 @@ So so much.
 * I'd like to make this more generalized, probably with a config file that it reads from. I have a config file there that I was messing around with, but it's not actually being used yet. Don't be fooled.
 * I also want to add in more error handling.
 * Right now, I suppress all output, but I'd like to generate some useful feedback. Just a ton of things.
+
+## Contributions are welcome!
+* Just send me a Pull Request.
