@@ -50,7 +50,10 @@ git commit -m "$message" > /dev/null 2>&1
 rm -r ~/$tmp_dir
 
 # Push new site to server
-#git push origin site
+git push origin site > /dev/null 2>&1
 
 # Switch back to source
 git checkout source > /dev/null 2>&1
+
+# Push the source to the server
+git push origin source > /dev/null 2>&1
