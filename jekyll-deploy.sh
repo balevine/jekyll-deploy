@@ -2,12 +2,6 @@
 
 # A script to build a Jekyll site
 
-# Make sure you're on the 'source' branch
-git checkout $source > /dev/null 2>&1
-
-# Build the Jekyll site
-jekyll build > /dev/null 2>&1
-
 # Check for the existence of a config file.
 if [ -f /config ]
 then
@@ -19,6 +13,12 @@ else
   source="source"
   built="master"
 fi
+
+# Make sure you're on the 'source' branch
+git checkout $source > /dev/null 2>&1
+
+# Build the Jekyll site
+jekyll build > /dev/null 2>&1
 
 # Get the latest commit SHA in 'source'
 last_SHA=( $(git log -n 1 --pretty=oneline) )
