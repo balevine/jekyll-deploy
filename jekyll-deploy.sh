@@ -8,10 +8,13 @@ then
   # If the config file exists, parse it and
   # extract the 'source' and 'built' branch names
   . ~/bin/blogdeploy/config-parser.sh
+  echo "Config file found"
 else
   # If the file doesn't exist, use these defaults
   source="source"
   built="master"
+  echo "No config file found"
+  echo "Using default config values"
 fi
 
 # Make sure you're on the 'source' branch
