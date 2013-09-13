@@ -8,6 +8,18 @@ git checkout source > /dev/null 2>&1
 # Build the Jekyll site
 jekyll build > /dev/null 2>&1
 
+# Check for the existence of a config file.
+if [ -f /config ]
+then
+  # If the config file exists, parse it and
+  # extract the 'source' and 'built' branch names
+  . ~/bin/blogdeploy/config-parser.sh
+else
+  # If the file doesn't exist, use these defaults
+  source="source"
+  built="master"
+fi
+
 # Get the latest commit SHA in 'source'
 last_SHA=( $(git log -n 1 --pretty=oneline) )
 
