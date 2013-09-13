@@ -3,7 +3,7 @@
 # A script to build a Jekyll site
 
 # Check for the existence of a config file.
-if [ -f /config ]
+if [ -f ./config ]
 then
   # If the config file exists, parse it and
   # extract the 'source' and 'built' branch names
