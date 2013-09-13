@@ -11,21 +11,32 @@ This is a simple shell script for building a Jekyll site and deploying it to Git
 * Commit changes to your source files. Currently, this script requires that your working directory is clean when it runs.
 * Run this script from the source directory.
 
+## Using the config file
+* Put a file in your Pages repository called `config`.
+* In that file, you can set the source branch and the destination branch for the Jekyll build.
+* Format the config file like this:
+```
+source: source-branch-name
+built: destination-branch-name
+```
+* The `source:` and `built:` part have to be there, you can change the names of the branches all you want.
+* If you choose not to use a config file, the defaults will be `source` and `master`.
+* If you DO have a config file, both lines must be there and must be filled in with branch names.
+
 ## What it does
 * Summons `jekyll build` to build the site files.
-* Moves the contents of `_site` to the `master` branch.
-* Commits those changes in `master`.
-* Pushes `source` and `master` to GitHub.
+* Moves the contents of `_site` to the destination branch.
+* Commits those changes in the destination branch.
+* Pushes the source and destination branches to GitHub.
 
 ## Things you might want to change
-* If you're using a Project Page, change `master` to `gh-pages`.
 * You can change the destination folder in your `_config.yml` file, but you'll need to change the folder in this script, too.
 * Just about everything else, really.
 
 ## TODO
 So so much.
-* I'd like to make this more generalized, probably with a config file that it reads from. I have a config file there that I was messing around with, but it's not actually being used yet. Don't be fooled.
-* I also want to add in more error handling.
+* I want to add in more error handling.
+* Move locations of some of the files. I actually use the `~/bin/blogdeploy/config-parser.sh` path in there, which is dumb.
 * Right now, I suppress all output, but I'd like to generate some useful feedback. Just a ton of things.
 
 ## Contributions are welcome!
