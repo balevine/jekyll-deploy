@@ -19,6 +19,13 @@ git checkout $source > /dev/null 2>&1
 
 # Build the Jekyll site
 jekyll build > /dev/null 2>&1
+if [ $? = 0 ]
+then
+  echo "Jekyll build successful"
+else
+  echo "Jekyll build failed"
+  exit 1
+fi
 
 # Get the latest commit SHA in 'source'
 last_SHA=( $(git log -n 1 --pretty=oneline) )
@@ -63,9 +70,21 @@ rm -r ~/$tmp_dir
 
 # Push new site to server
 git push origin $built > /dev/null 2>&1
+if [ $? = 0 ]
+then
+  echo "Site push successful"
+else
+  echo "Site push failed"
+fi
 
 # Switch back to source
 git checkout $source > /dev/null 2>&1
 
 # Push the source to the server
 git push origin $source > /dev/null 2>&1
+if [ $? = 0 ]
+then
+  echo "Source push successful"
+else
+  echo "Source push failed"
+fi
