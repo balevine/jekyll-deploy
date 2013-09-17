@@ -62,7 +62,7 @@ fi
 # Remove the current contents of the built branch and
 # replace them with the contents of the temp folder
 current_dir=${PWD}
-rm -r *
+rm -r $current_dir/*
 git rm -r --cached * > /dev/null 2>&1
 cp -r ~/$tmp_dir/* $current_dir
 
