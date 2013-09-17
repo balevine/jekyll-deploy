@@ -7,7 +7,8 @@ if [ -f ./config ]
 then
   # If the config file exists, parse it and
   # extract the 'source' and 'built' branch names
-  . ~/bin/blogdeploy/config-parser.sh
+  scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+  . $scriptdir/config-parser.sh
   echo "Config file found"
   echo $source
   echo $built
