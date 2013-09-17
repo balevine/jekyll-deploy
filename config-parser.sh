@@ -1,4 +1,4 @@
-!#/bin/bash
+#!/bin/bash
 
 # Parse the config file
 
@@ -8,7 +8,7 @@ while read line
 do
   text[$index]="$line"
   index=$[index+1]
-done <./config.txt
+done <./config
 
 # For each line, read the individual words
 index=0

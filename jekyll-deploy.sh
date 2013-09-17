@@ -9,6 +9,8 @@ then
   # extract the 'source' and 'built' branch names
   . ~/bin/blogdeploy/config-parser.sh
   echo "Config file found"
+  echo $source
+  echo $built
 else
   # If the file doesn't exist, use these defaults
   source="source"
