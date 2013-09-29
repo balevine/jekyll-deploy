@@ -29,10 +29,6 @@ built: destination-branch-name
 * Commits those changes in the destination branch.
 * Pushes the source and destination branches to GitHub.
 
-## Things you might want to change
-* You can change the destination folder in your `_config.yml` file, but you'll need to change the folder in this script, too.
-* Just about everything else, really.
-
 ## TODO
 So so much.
 * I want to add in more error handling.
