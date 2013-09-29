@@ -37,6 +37,7 @@ built: destination-branch-name
 So so much.
 * I want to add in more error handling.
 * Move locations of some of the files. I actually use the `~/bin/blogdeploy/config-parser.sh` path in there, which is dumb.
+* Create an installation script. There are currently three `.sh` files that this uses. It would be cool to have a `script/bootstrap` command that would load all this stuff up in the right places so you don't have to worry about that crap.
 * Right now, I suppress all output, but I'd like to generate some useful feedback. Just a ton of things.
 
 ## Contributions are welcome!
