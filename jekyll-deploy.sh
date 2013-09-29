@@ -26,13 +26,6 @@ git checkout $source > /dev/null 2>&1
 # Let's check for a clean working directory
 # If the working directory is NOT clean, we'll stash the changes
 . $scriptdir/stasher.sh
-if [ $? = 99 ]; then
-  # Something is stashed
-  stashed=1
-else
-  # Nothing is stashed
-  stashed=0
-fi
 
 # Build the Jekyll site
 jekyll build > /dev/null 2>&1
