@@ -10,8 +10,8 @@ then
   scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   . $scriptdir/config-parser.sh
   echo "Config file found"
-  echo $source
-  echo $built
+  echo "Source branch is $source"
+  echo "Site branch is $built"
 else
   # If the file doesn't exist, use these defaults
   source="source"
