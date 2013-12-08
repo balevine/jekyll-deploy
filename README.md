@@ -15,18 +15,18 @@ This is a simple shell script for building a Jekyll site and deploying it to Git
 * Put a file in your Pages repository called `config`.
 * In that file, you can set the source branch and the destination branch for the Jekyll build.
 * Format the config file like this:
-```
-source: source-branch-name
-built: destination-branch-name
-```
-* The `source:` and `built:` part have to be there, you can change the names of the branches all you want.
+
+    SOURCE: source-branch-name  
+    SITE: destination-branch-name
+
+* The `SOURCE:` and `SITE:` part have to be there, you can change the names of the branches all you want.
 * If you choose not to use a config file, the defaults will be `source` and `master`.
 * If you DO have a config file, both lines must be there and must be filled in with branch names.
 
 ## What it does
-* Summons `jekyll build` to build the site files.
-* Moves the contents of `_site` to the destination branch.
-* Commits those changes in the destination branch.
+* Summons `jekyll tmp_dir` to build the site files to a temporary folder;
+* Moves the contents of `tmp_dir` to the destination branch;
+* Commits those changes in the destination branch;
 * Pushes the source and destination branches to GitHub.
 
 ## TODO
@@ -38,3 +38,4 @@ So so much.
 
 ## Contributions are welcome!
 * Just send me a Pull Request.
+
