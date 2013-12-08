@@ -3,100 +3,91 @@
 # A script to build a Jekyll site
 
 # Check for the existence of a config file.
-if [ -f ./config ]
-then
+if [ -f ./config ]; then
   # If the config file exists, parse it and
-  # extract the 'source' and 'built' branch names
+  #   extract the SOURCE and SITE branch names
   scriptdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
   . $scriptdir/config-parser.sh
   echo "Config file found"
-  echo "Source branch is $source"
-  echo "Site branch is $built"
+  echo "- Source branch is $SOURCE"
+  echo "- Site branch is $SITE"
 else
   # If the file doesn't exist, use these defaults
-  source="source"
-  built="master"
-  echo "No config file found"
-  echo "Using default config values"
+  SOURCE="source"
+  SITE="master"
+  echo "No config file found, use default config values"
 fi
 
-# Make sure you're on the 'source' branch
-git checkout $source > /dev/null 2>&1
+# Make sure on the SOURCE branch
+git checkout $SOURCE > /dev/null 2>&1
 
-# Let's check for a clean working directory
-# If the working directory is NOT clean, we'll stash the changes
+# Check for a clean working directory
+# If the working directory is NOT clean, will stash the changes
 . $scriptdir/stasher.sh
 
-# Build the Jekyll site
-jekyll build > /dev/null 2>&1
-if [ $? = 0 ]
-then
+# Get the latest commit SHA in SOURCE branch
+last_SHA=( $(git log -n 1 --pretty=oneline) )
+
+# The name of the temporary folder will be the
+#   last commit SHA, to prevent possible conflicts
+#   with other folder names.
+tmp_dir="temp_$last_SHA"
+
+# Build the Jekyll site directly to a temporary folder
+jekyll ~/$tmp_dir > /dev/null 2>&1
+if [ $? = 0 ]; then
   echo "Jekyll build successful"
 else
   echo "Jekyll build failed"
   exit 1
 fi
 
-# Get the latest commit SHA in 'source'
-last_SHA=( $(git log -n 1 --pretty=oneline) )
-
-# Copy the contents of the '_site' folder in the
-# working directory to a temporary folder.
-# The name of the temporary folder will be the
-# last commit SHA, to prevent possible conflicts
-# with other folder names.
-tmp_dir="temp_$last_SHA"
-mkdir ~/$tmp_dir
-cp -r ./_site/* ~/$tmp_dir
-
-# Switch to the Jekyll branch
-git checkout $built > /dev/null 2>&1
-if [ $? -eq 1 ]
-then
+# Switch to the SITE branch
+git checkout $SITE > /dev/null 2>&1
+if [ $? = 1 ]; then
   # Branch does not exist. Create an orphan branch.
-  git checkout --orphan $built > /dev/null 2>&1
-  git add .
-  git commit -m "New branch" > /dev/null 2>&1
-  echo "New site branch created"
+  git checkout -b $SITE > /dev/null 2>&1
+  git add --all .
+  git commit -m "Initial commit" > /dev/null 2>&1
+  echo "$SITE branch does not exist, created new"
 fi
 
-# Remove the current contents of the built branch and
-# replace them with the contents of the temp folder
+# Remove the current contents of the SITE branch and
+#   replace them with the contents of the temp folder
 current_dir=${PWD}
 rm -r $current_dir/*
 git rm -r --cached * > /dev/null 2>&1
 cp -r ~/$tmp_dir/* $current_dir
 
-# Commit the changes to the built branch
-message="Updated built site from 'source' - $last_SHA"
-git add .
+# Commit the changes to the SITE branch
+message="Updated $SITE site from $SOURCE ($last_SHA)"
+git add --all .
 git commit -m "$message" > /dev/null 2>&1
 
 # Delete the temporary folder
 rm -r ~/$tmp_dir
 
-# Push new site to server
-git push origin $built > /dev/null 2>&1
-if [ $? = 0 ]
-then
-  echo "Site push successful"
+# Push latest SITE to server
+git push -u origin $SITE > /dev/null 2>&1
+if [ $? = 0 ]; then
+  echo "Push $SITE successful"
 else
-  echo "Site push failed"
+  echo "Push $SITE failed"
 fi
 
-# Switch back to source
-git checkout $source > /dev/null 2>&1
+# Switch back to SOURCE branch
+git checkout $SOURCE > /dev/null 2>&1
 
-# Push the source to the server
-git push origin $source > /dev/null 2>&1
-if [ $? = 0 ]
-then
-  echo "Source push successful"
+# Push the SOURCE to the server
+git push -u origin $SOURCE > /dev/null 2>&1
+if [ $? = 0 ]; then
+  echo "Push $SOURCE successful"
 else
-  echo "Source push failed"
+  echo "Push $SOURCE failed"
 fi
 
 # If anything is stashed, let's get it back
 if [ $stashed = 1 ]; then
   git stash apply
 fi
+
