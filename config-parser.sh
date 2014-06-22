@@ -24,11 +24,11 @@ for i in ${configtext[@]}
 do
   next=$[index+1]
   case $i in
-  source:)
-    source=${configtext[$next]}
+  SOURCE:)
+    SOURCE=${configtext[$next]}
   ;;
-  built:)
-    built=${configtext[$next]}
+  SITE:)
+    SITE=${configtext[$next]}
   ;;
   esac
   index=$next
