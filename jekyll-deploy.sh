@@ -34,7 +34,7 @@ last_SHA=( $(git log -n 1 --pretty=oneline) )
 tmp_dir="temp_$last_SHA"
 
 # Build the Jekyll site directly to a temporary folder
-jekyll ~/$tmp_dir > /dev/null 2>&1
+jekyll build -d ~/$tmp_dir > /dev/null 2>&1
 if [ $? = 0 ]; then
   echo "Jekyll build successful"
 else
