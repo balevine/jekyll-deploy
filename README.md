@@ -24,9 +24,9 @@ This is a simple shell script for building a Jekyll site and deploying it to Git
 * If you DO have a config file, both lines must be there and must be filled in with branch names.
 
 ## What it does
-* Summons `jekyll build` to build the site files.
-* Moves the contents of `_site` to the destination branch.
-* Commits those changes in the destination branch.
+* Summons `jekyll tmp_dir` to build the site files to a temporary folder;
+* Moves the contents of `tmp_dir` to the destination branch;
+* Commits those changes in the destination branch;
 * Pushes the source and destination branches to GitHub.
 
 ## TODO
