@@ -25,35 +25,30 @@ git checkout $SOURCE > /dev/null 2>&1
 # If the working directory is NOT clean, will stash the changes
 . $scriptdir/stasher.sh
 
-# Build the Jekyll site
-jekyll build > /dev/null 2>&1
-if [ $? = 0 ]
-then
+# Get the latest commit SHA in SOURCE branch
+last_SHA=( $(git log -n 1 --pretty=oneline) )
+
+# The name of the temporary folder will be the
+#   last commit SHA, to prevent possible conflicts
+#   with other folder names.
+tmp_dir="temp_$last_SHA"
+
+# Build the Jekyll site directly to a temporary folder
+jekyll build -d ~/$tmp_dir > /dev/null 2>&1
+if [ $? = 0 ]; then
   echo "Jekyll build successful"
 else
   echo "Jekyll build failed"
   exit 1
 fi
 
-# Get the latest commit SHA in SOURCE branch
-last_SHA=( $(git log -n 1 --pretty=oneline) )
-
-# Copy the contents of the '_site' folder in the
-# working directory to a temporary folder.
-# The name of the temporary folder will be the
-# last commit SHA, to prevent possible conflicts
-# with other folder names.
-tmp_dir="temp_$last_SHA"
-mkdir ~/$tmp_dir
-cp -r ./_site/* ~/$tmp_dir
-
 # Switch to the SITE branch
 git checkout $SITE > /dev/null 2>&1
-if [ $? -eq 1 ]; then
+if [ $? = 1 ]; then
   # Branch does not exist. Create an orphan branch.
-  git checkout --orphan $SITE > /dev/null 2>&1
-  git add .
-  git commit -m "New branch" > /dev/null 2>&1
+  git checkout -b $SITE > /dev/null 2>&1
+  git add --all .
+  git commit -m "Initial commit" > /dev/null 2>&1
   echo "$SITE branch does not exist, created new"
 fi
 
